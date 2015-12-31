@@ -177,15 +177,6 @@
 
     
     
-      
-      
-        
-        
-        
-      
-
-      
-    
 
     
       
@@ -209,8 +200,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/12/31/My-New-Post/" itemprop="url">
-                  My New Post
+                <a class="post-title-link" href="/2015/12/31/变种XSS：持久控制/" itemprop="url">
+                  变种XSS：持久控制
                 </a>
               
             
@@ -247,7 +238,12 @@
         
           <span itemprop="articleBody">
             
-              
+              <h2 id="u5F15_u8A00"><a href="#u5F15_u8A00" class="headerlink" title="引言"></a>引言</h2><p>首先声明，这不是一个新洞，看过 Homakov 文章以及译文的人想必对这种漏洞有所了解。这种漏洞已经存在一段时间了，有没有被利用过尚不得知，虽然利用条件较苛刻，但是当符合条件的站点被攻击后， 影响面和影响程度巨大，并且普通用户不知如何清除, 可导致长期持续攻击。2014年底的时候，这种漏洞的利用条件没有现在苛刻（比如没有Service-Worker-Allowed头），一年过来 W3C 对规范优化了不少（包括安全方面）， 相信不久的将来，很快会被标准更新所扼杀了。弥留之际，让这个漏洞放点异彩吧。</p>
+<h3 id="u4E00_u5207_u90FD_u4ECE_serviceWorker__u8BF4_u8D77"><a href="#u4E00_u5207_u90FD_u4ECE_serviceWorker__u8BF4_u8D77" class="headerlink" title="一切都从 serviceWorker 说起"></a>一切都从 serviceWorker 说起</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Service Worker是基于Web Worker的事件驱动的，他们执行的机制都是新开一个线程去处理一些额外的，以前不能直接处理的任务。对于Web Worker，我们可以使用它来进行复杂的计算，因为它并不阻塞浏览器主线程的渲染。而Service Worker，我们可以用它来进行本地缓存，相当于一个本地的proxy。说起缓存，我们会想起我们常用的一些缓存技术来缓存我们的静态资源，但是老的方式是不支持调试的，灵活性不高。使用Service Worker来进行缓存，我们可以用javascript代码来拦截浏览器的http请求，并设置缓存的文件，直接返回，不经过web服务器，然后，做更多你想做的事情。</span><br></pre></td></tr></table></figure>
+<p>1。 我们可以用 javascript 代码来拦截浏览器的 http 请求，并设置缓存的文件，直接返回。<br>相信很多人看到这句已经明白了，通过 js 来代理浏览器 http 请求，也就是说通过执行 js 代码来控制浏览器的请求， 很容易想到，利用 xss 来修改浏览器请求的返回内容。</p>
+<p>可怕的是，即便 xss 漏洞被修复了，攻击仍然持续，并且渗透到攻击范围内的每一个 url。</p>
+<p>并且，当用户察觉到攻击，并且理解这种攻击，进入chrome后台（chrome://appcache-internals）， 进行手动清除攻击缓存，攻击仍未失效！当然了，还是有办法清除的，且无须用户手工操作（下文会演示）。</p>
+<h3 id="u6F0F_u6D1E_u539F_u7406_u548C_u6F14_u793A"><a href="#u6F0F_u6D1E_u539F_u7406_u548C_u6F14_u793A" class="headerlink" title="漏洞原理和演示"></a>漏洞原理和演示</h3>
             
           </span>
         
@@ -413,7 +409,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-count">1</span>
               <span class="site-state-item-name">標籤</span>
               </a>
           </div>
